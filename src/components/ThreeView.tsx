@@ -46,11 +46,11 @@ export function ThreeView<P>({ create, props, label, className, children, fallba
     if (!supported || !ref.current) return;
     const container = ref.current;
     // A GPU pode descartar o contexto (driver reiniciado, aba em segundo plano, memória): avisa em vez de congelar a cena.
-    const lost = (event: Event) => {
-      event.preventDefault();
-      setError('o navegador descartou o contexto WebGL; recarregue a página');
-    };
+    // O Three.js já pede a restauração; se o navegador devolver o contexto, a cena volta e o aviso some.
+    const lost = () => setError('o navegador descartou o contexto WebGL; recarregue a página se a cena não voltar');
+    const restored = () => setError(null);
     container.addEventListener('webglcontextlost', lost, true);
+    container.addEventListener('webglcontextrestored', restored, true);
     try {
       handle.current = create(container, props);
     } catch (e) {
@@ -58,6 +58,7 @@ export function ThreeView<P>({ create, props, label, className, children, fallba
     }
     return () => {
       container.removeEventListener('webglcontextlost', lost, true);
+      container.removeEventListener('webglcontextrestored', restored, true);
       handle.current?.dispose();
       handle.current = null;
     };
