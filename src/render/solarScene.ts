@@ -26,7 +26,7 @@ export interface SolarSceneProps {
 }
 
 export function createSolarScene(container: HTMLElement, initial: SolarSceneProps): SceneHandle<SolarSceneProps> {
-  const stage = createStage(container, { position: [0, 26, 22], far: 2000 });
+  const stage = createStage(container, { position: [0, 31, 26], far: 2000 });
   const { scene } = stage;
   scene.background = new THREE.Color(0x02040a);
   scene.add(starfield(600));

@@ -12,7 +12,8 @@ export interface HangarSceneProps {
 }
 
 export function createHangarScene(container: HTMLElement, initial: HangarSceneProps): SceneHandle<HangarSceneProps> {
-  const stage = createStage(container, { position: [38, 30, 52], target: [0, 28, 0], far: 1000 });
+  // Enquadra até ~85 m de altura (o veículo mais alto do catálogo tem ~70 m).
+  const stage = createStage(container, { position: [58, 40, 78], target: [0, 32, 0], far: 1000 });
   const { scene, camera, renderer } = stage;
   scene.background = new THREE.Color(0x070b14);
   scene.fog = new THREE.Fog(0x070b14, 120, 320);

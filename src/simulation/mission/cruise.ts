@@ -20,6 +20,7 @@ export const MARS_SOI_KM = 577_000;
 export const PLANETARY_PROTECTION_BIAS_KM = 250_000;
 export const ATMOSPHERE_LIMIT_KM = 80;
 export const TRACK_STEP_DAYS = 2;
+export const MIN_LINK_DISTANCE_KM = RADIUS.earth + 200;
 
 export interface TcmSlot {
   id: string;
@@ -184,8 +185,11 @@ export function tcmPreview(state: CruiseState, eph: Ephemeris) {
 
 export function commsAt(state: CruiseState, eph: Ephemeris, jd = state.jd, sc = state.sc) {
   const earth = eph.state('earth', jd).r;
-  const sep = sunEarthProbeAngle(earth, sc.r);
-  return linkBudget(state.antennaId, state.amplifierId, norm(sub(sc.r, earth)), sep, state.antennaDamaged);
+  // Nas cônicas remendadas a sonda parte do centro da Terra: perto dela, usa a distância mínima da órbita de estacionamento.
+  const distance = norm(sub(sc.r, earth));
+  const near = distance < MIN_LINK_DISTANCE_KM;
+  const sep = near ? 180 : sunEarthProbeAngle(earth, sc.r);
+  return linkBudget(state.antennaId, state.amplifierId, Math.max(distance, MIN_LINK_DISTANCE_KM), sep, state.antennaDamaged);
 }
 
 export function executeTcm(state: CruiseState, eph: Ephemeris, id: string): CruiseState {
