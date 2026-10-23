@@ -5,14 +5,24 @@ export interface SceneHandle<P> {
   dispose(): void;
 }
 
-/** Verifica suporte a WebGL sem lançar erro (jsdom e navegadores sem GPU retornam null). */
+let probed: boolean | null = null;
+
+/**
+ * Verifica suporte a WebGL sem lançar erro (jsdom e navegadores sem GPU retornam null).
+ * O teste roda uma vez por página e libera o contexto na hora: os navegadores limitam
+ * quantos contextos WebGL ficam ativos, e cada sonda esquecida ocupava uma vaga.
+ */
 export function webglAvailable(): boolean {
+  if (probed !== null) return probed;
   try {
     const canvas = document.createElement('canvas');
-    return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'));
+    const gl = (canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl')) as WebGLRenderingContext | null;
+    probed = !!gl;
+    gl?.getExtension('WEBGL_lose_context')?.loseContext();
   } catch {
-    return false;
+    probed = false;
   }
+  return probed;
 }
 
 /**
@@ -34,12 +44,21 @@ export function ThreeView<P>({ create, props, label, className, children, fallba
 
   useEffect(() => {
     if (!supported || !ref.current) return;
+    const container = ref.current;
+    // A GPU pode descartar o contexto (driver reiniciado, aba em segundo plano, memória): avisa em vez de congelar a cena.
+    // O Three.js já pede a restauração; se o navegador devolver o contexto, a cena volta e o aviso some.
+    const lost = () => setError('o navegador descartou o contexto WebGL; recarregue a página se a cena não voltar');
+    const restored = () => setError(null);
+    container.addEventListener('webglcontextlost', lost, true);
+    container.addEventListener('webglcontextrestored', restored, true);
     try {
-      handle.current = create(ref.current, props);
+      handle.current = create(container, props);
     } catch (e) {
       setError((e as Error).message);
     }
     return () => {
+      container.removeEventListener('webglcontextlost', lost, true);
+      container.removeEventListener('webglcontextrestored', restored, true);
       handle.current?.dispose();
       handle.current = null;
     };
@@ -59,6 +78,12 @@ export function ThreeView<P>({ create, props, label, className, children, fallba
             <br />
             Todos os dados da simulação continuam nos painéis.
           </p>
+          {!supported ? (
+            <p className="small">
+              Para ativar: ligue a aceleração por hardware nas configurações do navegador e reinicie-o, desative extensões que bloqueiam WebGL
+              e confira em <a href="https://get.webgl.org/" target="_blank" rel="noreferrer">get.webgl.org</a>.
+            </p>
+          ) : null}
           {fallback}
         </div>
       ) : null}
