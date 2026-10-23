@@ -60,6 +60,8 @@ export function createStage(container: HTMLElement, options: { fov?: number; nea
         else mat?.dispose?.();
       });
       renderer.dispose();
+      // dispose() não devolve o contexto ao navegador; sem isto cada troca de tela deixava um contexto vivo.
+      renderer.forceContextLoss();
       renderer.domElement.remove();
     },
   };

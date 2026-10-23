@@ -39,3 +39,15 @@ test('o proxy /api/horizons responde com erro claro quando os parâmetros são i
   expect(r.status()).toBe(400);
   expect((await r.json()).kind).toBe('parametros');
 });
+
+test('perda do contexto WebGL vira aviso em vez de cena congelada', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Iniciar missão' }).click();
+  const canvas = page.locator('.view3d canvas').first();
+  await expect(canvas).toBeVisible();
+  await canvas.evaluate((c: HTMLCanvasElement) => {
+    const gl = (c.getContext('webgl2') ?? c.getContext('webgl')) as WebGLRenderingContext;
+    gl.getExtension('WEBGL_lose_context')!.loseContext();
+  });
+  await expect(page.getByText(/descartou o contexto WebGL/)).toBeVisible();
+});
