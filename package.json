@@ -1,0 +1,9 @@
+{
+  "name": "mission-architect",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "description": "Mission Architect: simulador educacional de missão a Marte com visualizações 3D em Three.js."
+}
