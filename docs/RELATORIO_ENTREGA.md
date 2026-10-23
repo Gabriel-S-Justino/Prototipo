@@ -58,7 +58,7 @@ npm run build && npm run preview
 |---|---|
 | Consulta real ao Horizons e à DONKI e comparação com o modelo offline | Rede do ambiente bloqueou os domínios da NASA |
 | Reconferir os números do catálogo de lançadores nos documentos oficiais e reduzir o desvio do Falcon 9 | Documentos não acessíveis no ambiente; o modelo de fases médias usa os mesmos fatores de perda para todos os veículos |
-| Validar o deploy na Vercel (funções com imports `.ts`) | Não havia acesso de deploy |
+| Fazer um deploy real na Vercel | Sem conta da Vercel no ambiente; `vercel build` local e as funções compiladas foram testados (ver COMO_EXECUTAR.md) |
 | Divisão de código do Three.js | Fora do escopo crítico; só afeta o tempo de carregamento |
 | Teste em celular e com leitores de tela | Só a acessibilidade essencial (rótulos, foco, teclado no porkchop) foi coberta |
 | Texturas da NASA | A pasta `assets/nasa/` do ZIP estava vazia; as texturas são procedurais |

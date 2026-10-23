@@ -1,7 +1,7 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { nasaDevApi } from './api/dev-middleware.ts';
+import { nasaDevApi } from './server/dev-middleware.ts';
 
 export default defineConfig({
   plugins: [react(), nasaDevApi()],

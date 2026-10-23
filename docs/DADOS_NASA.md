@@ -32,7 +32,7 @@
 
 ## Arquitetura dos proxies
 
-`api/handlers.ts` contém a lógica, usada pelas funções serverless da Vercel (`api/horizons.ts`, `api/donki.ts`) e pelo middleware do Vite (`api/dev-middleware.ts`) em `npm run dev` e `npm run preview`. O navegador só chama `/api/*`.
+`server/handlers.ts` contém a lógica, usada pelas funções serverless da Vercel (`api/horizons.ts`, `api/donki.ts`) e pelo middleware do Vite (`server/dev-middleware.ts`) em `npm run dev` e `npm run preview`. O navegador só chama `/api/*`.
 
 ## O que é real e o que é didático no jogo
 

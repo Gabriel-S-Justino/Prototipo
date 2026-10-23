@@ -1,5 +1,5 @@
 // Função serverless (Vercel): GET /api/donki?start=AAAA-MM-DD&end=AAAA-MM-DD. Usa NASA_API_KEY do ambiente.
-import { handleDonki } from './handlers.ts';
+import { handleDonki } from '../server/handlers.ts';
 
 interface Req { method?: string; query?: Record<string, string | string[] | undefined> }
 interface Res { status(code: number): Res; setHeader(k: string, v: string): void; json(body: unknown): void }

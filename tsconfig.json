@@ -17,5 +17,5 @@
     "allowImportingTsExtensions": true,
     "types": ["vite/client", "node", "vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src", "api", "vite.config.ts", "e2e", "playwright.config.ts"]
+  "include": ["src", "api", "server", "vite.config.ts", "e2e", "playwright.config.ts"]
 }

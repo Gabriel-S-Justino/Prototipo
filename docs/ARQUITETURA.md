@@ -19,7 +19,8 @@ src/
   components/              peças de interface reutilizáveis (Painel de Física, métricas, ThreeView)
   features/                uma pasta por etapa da missão
   app/App.tsx              navegação por etapas
-api/                       proxies serverless (Vercel) e middleware do Vite
+api/                       funções serverless da Vercel (só os pontos de entrada)
+server/                    lógica dos proxies e middleware do Vite
 e2e/                       testes Playwright
 legacy/                    documentação do projeto original
 ```
@@ -52,7 +53,7 @@ Depois do lançamento o projeto fica travado: ações de edição são ignoradas
 
 ## Integrações externas
 
-O navegador nunca chama a NASA. `api/handlers.ts` contém a lógica dos proxies (validação, tempo limite, normalização, cabeçalhos de cache) e é usada tanto pelas funções da Vercel (`api/horizons.ts`, `api/donki.ts`) quanto pelo middleware do Vite. Ver [DADOS_NASA.md](DADOS_NASA.md).
+O navegador nunca chama a NASA. `server/handlers.ts` contém a lógica dos proxies (validação, tempo limite, normalização, cabeçalhos de cache) e é usada tanto pelas funções da Vercel (`api/horizons.ts`, `api/donki.ts`) quanto pelo middleware do Vite (`server/dev-middleware.ts`). Esses módulos ficam fora de `api/` porque a Vercel transforma todo arquivo de `api/` em uma função pública. Ver [DADOS_NASA.md](DADOS_NASA.md).
 
 ## Decisões
 

@@ -1,8 +1,9 @@
 // Camada de integração NASA/JPL Horizons (sem DOM): monta a consulta, interpreta o CSV de vetores,
 // valida unidades e plausibilidade física e normaliza para km e km/s. Usada pelo proxy /api/horizons.
+// Módulo também executado pelas funções da Vercel (Node ESM): imports relativos com extensão .ts explícita.
 // Documentação da API: https://ssd-api.jpl.nasa.gov/doc/horizons.html
-import { HORIZONS_ID, type BodyId } from '../../data/bodies';
-import { AU_KM } from '../../domain/units';
+import { HORIZONS_ID, type BodyId } from '../../data/bodies.ts';
+import { AU_KM } from '../../domain/units.ts';
 import type { EphemerisSample } from '../../simulation/orbital/ephemeris';
 
 export const HORIZONS_URL = 'https://ssd.jpl.nasa.gov/api/horizons.api';
