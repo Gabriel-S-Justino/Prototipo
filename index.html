@@ -4,27 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mission Architect</title>
-  <meta name="description" content="Monte um foguete, espere a janela de lançamento e leve uma sonda até Marte, entendendo a física de cada passo.">
-  <link rel="stylesheet" href="css/style.css">
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
-      }
-    }
-  </script>
-  <script type="module" src="js/main.js"></script>
+  <meta name="description" content="Simulador didático de engenharia de missão: projete o lançador, escolha a janela, gerencie o voo e opere uma sonda em Marte.">
 </head>
 <body>
-  <header class="top">
-    <h1>Mission Architect</h1>
-    <p><span id="phase"></span> · <span id="clock"></span></p>
-  </header>
-  <div class="layout">
-    <main id="main" tabindex="-1"></main>
-    <aside id="physics" class="physics" aria-label="Painel de Física"></aside>
-  </div>
-  <noscript>O jogo precisa de JavaScript ligado.</noscript>
+  <div id="root"></div>
+  <noscript>O Mission Architect precisa de JavaScript ligado.</noscript>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
