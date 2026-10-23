@@ -1,5 +1,5 @@
 // Função serverless (Vercel): GET /api/horizons?body=earth|mars&start=AAAA-MM-DD&stop=AAAA-MM-DD&step=1
-import { handleHorizons } from './handlers.ts';
+import { handleHorizons } from '../server/handlers.ts';
 
 interface Req { method?: string; query?: Record<string, string | string[] | undefined> }
 interface Res { status(code: number): Res; setHeader(k: string, v: string): void; json(body: unknown): void }

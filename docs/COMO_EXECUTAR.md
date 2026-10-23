@@ -20,7 +20,7 @@ cp .env.example .env   # opcional: NASA_API_KEY para a DONKI
 npm run dev        # http://localhost:5173
 ```
 
-O servidor do Vite também atende `/api/horizons` e `/api/donki` (plugin em `api/dev-middleware.ts`), com a mesma lógica das funções serverless.
+O servidor do Vite também atende `/api/horizons` e `/api/donki` (plugin em `server/dev-middleware.ts`), com a mesma lógica das funções serverless.
 
 ## Build e pré-visualização
 
@@ -40,8 +40,37 @@ npm run typecheck
 
 O Playwright usa o Chromium em `/opt/pw-browsers/chromium` se ele existir; caso contrário, rode `npx playwright install chromium` uma vez.
 
-## Deploy (Vercel)
+## Deploy na Vercel
 
-`vercel.json` define `npm run build`, saída em `dist/` e as funções `api/horizons.ts` e `api/donki.ts`. Configure `NASA_API_KEY` nas variáveis de ambiente do projeto na Vercel.
+O projeto já está configurado (`vercel.json`): build com `npm run build`, site estático em `dist/` e duas funções serverless, `api/horizons.ts` e `api/donki.ts` (Node 22, até 30 s). A lógica dos proxies fica em `server/`, fora de `api/`, para que a Vercel não a publique como função.
 
-**Não verificado:** o deploy na Vercel não foi executado durante esta entrega. As funções importam módulos TypeScript com extensão `.ts`; se o empacotador da Vercel recusar esse formato, será preciso ajustar os imports. Em hospedagem estática sem `/api`, o jogo funciona com o modelo offline e os botões de Horizons/DONKI mostram a indisponibilidade.
+### Pelo painel da Vercel (recomendado)
+
+1. Em [vercel.com/new](https://vercel.com/new), importe o repositório `Gabriel-S-Justino/Prototipo`.
+2. Em **Production Branch** (Settings → Git), escolha `Produção`. Os outros branches viram deploys de pré-visualização.
+3. Deixe o preset **Vite**: o comando de build e a pasta de saída já vêm do `vercel.json`.
+4. Em **Settings → Environment Variables**, crie `NASA_API_KEY` com a chave de [api.nasa.gov](https://api.nasa.gov/) (opcional; sem ela a DONKI usa `DEMO_KEY`, com limite baixo).
+5. Clique em **Deploy**.
+
+### Pela linha de comando
+
+```bash
+npx vercel login
+npx vercel link                 # liga a pasta ao projeto
+npx vercel env add NASA_API_KEY # opcional
+npx vercel                      # deploy de pré-visualização
+npx vercel --prod               # deploy de produção
+```
+
+### Depois do deploy, confira
+
+- `https://SEU-PROJETO.vercel.app/api/horizons?body=pluto` deve responder **400** com `"kind":"parametros"`;
+- no Planejamento, "Usar NASA/JPL Horizons" deve trocar a fonte das efemérides (primeiro teste real contra a NASA);
+- "Calibrar eventos solares (DONKI)" deve mostrar quantas CMEs foram usadas.
+
+### O que já foi verificado e o que não foi
+
+- `vercel build` (CLI 65.2.0) rodou localmente e gerou o site e as duas funções; as funções compiladas foram executadas em Node com `fetch` simulado e responderam 400, 200 e 405 como esperado, sem vazar a chave.
+- **Não verificado:** um deploy real na Vercel e a chamada real à NASA, porque o ambiente de desenvolvimento não tinha conta da Vercel nem acesso aos domínios da NASA.
+- Avisos `TS2688` (tipos de teste não encontrados) aparecem ao compilar as funções; são inofensivos e não impedem o build.
+- Em hospedagem só estática (sem `/api`), o jogo funciona com o modelo offline e os botões de Horizons/DONKI mostram a indisponibilidade.

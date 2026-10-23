@@ -4,6 +4,9 @@
   "version": "2.0.0",
   "type": "module",
   "description": "Mission Architect: simulador didático de engenharia de missão robótica a Marte.",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

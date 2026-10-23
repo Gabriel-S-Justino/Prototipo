@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { buildHorizonsUrl, HorizonsError, parseHorizonsVectors, queryHorizons, validateQuery } from './horizonsCore';
 import { buildDonkiUrl, calibrationFromCmes, DonkiError, parseDonkiCmeAnalysis, queryDonki } from './donkiCore';
 import { loadDonkiCalibration, loadHorizonsEphemeris, ServiceUnavailable } from './client';
-import { handleDonki, handleHorizons } from '../../../api/handlers';
+import { handleDonki, handleHorizons } from '../../../server/handlers';
 import { HEADER, horizonsPayload, vectorLines } from './__fixtures__/horizons';
 import { standishState } from '../../simulation/orbital/ephemeris';
 import { isoToJd } from '../../domain/units';
