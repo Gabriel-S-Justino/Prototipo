@@ -27,7 +27,8 @@ export function Hangar() {
     setSelected(part);
     setTab(part === 'probe' ? 'sonda' : 'lancador');
   }, []);
-  const sceneProps = useMemo<HangarSceneProps>(() => ({ vehicle, selected, onSelect }), [vehicle, selected, onSelect]);
+  const probeConfig = state.design.probe;
+  const sceneProps = useMemo<HangarSceneProps>(() => ({ vehicle, probe: probeConfig, selected, onSelect }), [vehicle, probeConfig, selected, onSelect]);
 
   /** Problemas que uma alternativa causaria, para explicar incompatibilidades antes do clique. */
   const issuesIf = (patch: Partial<VehicleConfig>) => assembleVehicle({ ...config, ...patch }).issues.filter((i) => i.severity === 'erro').map((i) => i.message);
@@ -73,7 +74,7 @@ export function Hangar() {
               <span className="badge info">{PART_LABEL[selected]}</span>
               <span className="muted small">Arraste para girar · role para aproximar · clique numa parte</span>
             </div>
-            <div className="overlay">Geometria procedural ilustrativa em metros; não é CAD dos veículos reais.</div>
+            <div className="overlay">Baia de montagem inspirada no VAB da NASA. Proporções em metros a partir do catálogo; não é CAD dos veículos reais. O gelo nos tanques mostra o abastecimento.</div>
           </ThreeView>
           <Metrics label="Resumo do veículo">
             <Metric label="Massa na decolagem" value={fmt(perf.liftoffMass / 1000, 1)} unit="t" />

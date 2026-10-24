@@ -51,7 +51,8 @@ export function Cruise() {
     predicted: trajectoryPoints(cruise.sc, Math.max(0.5, cruise.plannedArrivalJd - cruise.jd), 100),
     spacecraft: cruise.sc.r,
     highlightMars: true,
-  }), [cruise.jd, cruise.sc, cruise.track, eph]);
+    probe: state.design.probe,
+  }), [cruise.jd, cruise.sc, cruise.track, eph, state.design.probe]);
 
   const upcoming = [
     ...cruise.tcms.filter((t) => t.status === 'pendente').map((t) => ({ jd: t.jd, text: `${t.label}: oportunidade de correção` })),
