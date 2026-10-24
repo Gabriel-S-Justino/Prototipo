@@ -23,7 +23,7 @@ export function MarsOperations() {
   const balance = energyBalance(probe, ops.orbit, geo.marsSunKm / AU_KM, state.turnPlan, dust);
   const link = linkBudget(probe.antennaId, probe.amplifierId, geo.distanceKm, geo.sepDeg, ops.antennaDamaged);
   const objectives = objectivesStatus(ops.science);
-  const scene = useMemo<MarsSceneProps>(() => ({ periAltKm: capture.periAltKm, apoAltKm: capture.apoAltKm, phase: 0, dustStorm: dust, status: 'orbita' }), [capture, dust]);
+  const scene = useMemo<MarsSceneProps>(() => ({ periAltKm: capture.periAltKm, apoAltKm: capture.apoAltKm, phase: 0, dustStorm: dust, status: 'orbita', probe }), [capture, dust, probe]);
   const active = state.turnPlan.active.filter((id) => probe.instruments.includes(id));
   const inactive = probe.instruments.filter((id) => !active.includes(id));
   const setActive = (list: string[]) => dispatch({ type: 'plano-turno', plan: { active: list } });

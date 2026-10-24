@@ -15,13 +15,15 @@ src/
   state/                   redutor da missão (fonte única de verdade) e contexto React
   services/                clientes do navegador para /api, runner do porkchop (Web Worker + cache)
   workers/                 worker do porkchop
-  render/                  cenas Three.js (hangar, sistema solar, lançamento, Marte)
+  render/                  cenas Three.js e pipeline visual (bloom, ACES, vinheta) + materiais PBR,
+                           modelos (foguete/sonda), efeitos (plumas/partículas) e corpos celestes
   components/              peças de interface reutilizáveis (Painel de Física, métricas, ThreeView)
   features/                uma pasta por etapa da missão
   app/App.tsx              navegação por etapas
 api/                       funções serverless da Vercel (só os pontos de entrada)
 server/                    lógica dos proxies e middleware do Vite
 e2e/                       testes Playwright
+public/textures/           texturas da NASA (domínio público); ver docs/CREDITOS_VISUAIS.md
 legacy/                    documentação do projeto original
 ```
 
